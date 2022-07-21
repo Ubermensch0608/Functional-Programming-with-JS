@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>const log = console.log;</script>
+## 기존과 달라진 ES6에서의 리스트 순회
+    - for i++
+    - for of
+
+<script>
+    // 배열 순회 ( 명령적 )
+    const list = [1, 2, 3];
+    for (var i = 0; i < list.length; i++){  // 숫자 키로 접근하여 배열 순회
+        log(list[i]);
+    }
+
+    // 유사 배열 순회
+    const str = 'abc';
+    for (var i = 0; i < str.length; i++){
+        log(str[i]);
+    }
+
+    // ES6 이후의 순회 방법 -> 기존 문법보다 간결하게 변경 ( 선언적 )
+    for (const a of list){
+        log(a);
+    }
+
+     for (const a of str){
+        log(a);
+    }
+</script>
+
+### Array를 통해 알아보기
+
+<script>
+    log('Arr -----------------');
+    const arr = [1, 2, 3];
+    for (const a of arr) log(a);
+</script>
+
+### Set을 통해 알아보기
+
+<script>
+    log('Set -----------------');
+    const set = new Set([1, 2, 3]);
+    for (const a of set) log(a);
+</script>
+
+### Map을 통해 알아보기
+
+<script>
+    log('Map -----------------');
+    const map = new Map([['a', 1], ['b', 2], ['c', 3]]);
+    for (const a of map) log(a);
+</script>
+</html>
