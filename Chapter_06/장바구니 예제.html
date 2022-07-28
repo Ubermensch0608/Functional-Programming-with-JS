@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장바구니 예제</title>
+    <script src="../lib/fx.js"></script>
+</head>
+<body>
+    
+    <div id="cart">
+
+    </div>
+
+    <script>
+        const products = [
+        { name: '반팔티', price: 15000, quantity: 1 },
+        { name: '긴팔티', price: 20000, quantity: 2 },
+        { name: '핸드폰케이스', price: 15000, quantity: 3 },
+        { name: '후드티', price: 30000, quantity: 4 },
+        { name: '바지', price: 25000, quantity: 5 },
+    ];
+
+    // 총 수량
+    // const totalQuantity = products => go(products,
+    //     map(p => p.quantity),
+    //     reduce((a, b) => a + b));
+
+    // log(totalQuantity(products));
+
+    // add 함수를 통해 값을 더해가는 코드 중복 제거
+    const add = (a, b) => a + b;
+    
+    const sum = curry((f, iter) => go(
+        iter,
+        map(f),
+        reduce(add),
+    ));
+
+    log(sum(p => p.quantity, products));
+
+    // const totalQuantity = pipe(
+    //     map(p => p.quantity),
+    //     reduce(add));
+
+    // log(totalQuantity(products));
+
+    // const totalPrice = pipe(
+    //     map(p => p.price * p.quantity),
+    //     reduce(add));
+
+    // log(totalPrice(products));
+
+    // sum 함수를 중복 제거
+    // const totalQuantity = products => 
+    //     sum(p => p.quantity, products);
+
+    // const totalPrice = 
+    //     sum(p =>  p.price * p.quantity, products);
+        
+    // sum 함수에 curry 함수를 적용해여 불필요한 코드 정리
+    const totalQuantity = sum(p => p.quantity);
+
+    const totalPrice = sum(p =>  p.price * p.quantity);
+
+    log(totalQuantity(products));
+    log(totalPrice(products));
+
+    // sum을 통해 추상화의 레밸을 높혀 다른 도메인이 와도 폭넓게 이용가능
+    log(sum(u => u.age, [
+        { age: 34 },
+        { age: 30 },
+        { age: 40 }
+    ]));
+    </script>
+</body>
+</html>
