@@ -37,22 +37,30 @@
 <script>
     console.clear();
     const add = (a, b) => a + b;
-    // curry 함수를 이용하여 아래의 1번의 코드를 2번 처럼 간결하게 나타낼 수 있음 
+    
+    // pipe 함수를 통해 중복 제거
+    // 함수형 프로그래밍에서는 고차함수를 사용하여 중복되는 함수를 묶어서 코드를 간결히 하는 것이 포인트
+    const totalPrice = pipe(
+        map(p => p.price),
+        reduce(add)
+    );
 
+    const baseTotalPrice = predicate => pipe(
+        filter(predicate),
+        totalPrice
+    );
+
+    // curry 함수를 이용하여 아래의 1번의 코드를 2번 처럼 간결하게 나타낼 수 있음     
 // 1.
     go(
         products,
-        products => filter(p => p.price < 20000, products),
-        products => map(p => p.price, products),
-        prices => reduce(add, prices),
+        baseTotalPrice(p => p.price < 20000),
         log);
 
 // 2. 
     go(
         products,
-        filter(p => p.price < 20000),
-        map(p => p.price),
-        reduce(add),
+        baseTotalPrice(p => p.price >= 20000),
         log);
 </script>
 
