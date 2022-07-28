@@ -1,0 +1,71 @@
+<script src="../lib/fx.js"></script>
+
+
+
+# 코드를 값으로 다루어 표현력 높이기
+
+## go, pipe
+
+<script>
+    const products = [
+    { name: '반팔티', price: 15000 },
+    { name: '긴팔티', price: 20000 },
+    { name: '핸드폰케이스', price: 15000 },
+    { name: '후드티', price: 30000 },
+    { name: '바지', price: 25000 },
+    ];
+
+    const go = (...args) => reduce((a, f) => f(a), args);
+    const pipe = (f, ...fs) => (...as) => go(f(...as), ...fs);
+
+    go(
+        0,
+        a => a + 1,
+        a => a + 10,
+        a => a + 100,
+        log); // 111
+
+     const f = pipe(
+        (a, b) => a + b,
+        a => a + 10,
+        a => a + 100,
+     ); 
+
+     log(f(0, 1));
+</script>
+
+<script>
+    console.clear();
+    const add = (a, b) => a + b;
+    // curry 함수를 이용하여 아래의 1번의 코드를 2번 처럼 간결하게 나타낼 수 있음 
+
+// 1.
+    go(
+        products,
+        products => filter(p => p.price < 20000, products),
+        products => map(p => p.price, products),
+        prices => reduce(add, prices),
+        log);
+
+// 2. 
+    go(
+        products,
+        filter(p => p.price < 20000),
+        map(p => p.price),
+        reduce(add),
+        log);
+</script>
+
+## curry
+
+<script>
+    // curry 함수 => 인자의 개수가 충족될 경우, 받은 함수를 나중에 실행시키는 것이 가능
+    // const curry = f => 
+    // (a, ..._) => _.length ? f(a, ..._) : (..._) => f(a, ..._);
+
+    // 하나의 인자를 미리 고정시켜두고, 나머지 인자는 이후에 동적으로 부여하기 가능 
+    const mult = curry((a, b) => a * b);
+    const mult3  = mult(3);
+    log(mult3(10));
+
+</script>
