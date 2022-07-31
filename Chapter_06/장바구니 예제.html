@@ -15,11 +15,11 @@
 
     <script>
         const products = [
-        { name: '반팔티', price: 15000, quantity: 1 },
-        { name: '긴팔티', price: 20000, quantity: 2 },
-        { name: '핸드폰케이스', price: 15000, quantity: 3 },
-        { name: '후드티', price: 30000, quantity: 4 },
-        { name: '바지', price: 25000, quantity: 5 },
+        { name: '반팔티', price: 15000, quantity: 1, isSelected: true },
+        { name: '긴팔티', price: 20000, quantity: 2, isSelected: false },
+        { name: '핸드폰케이스', price: 15000, quantity: 3, isSelected: true },
+        { name: '후드티', price: 30000, quantity: 4, isSelected: false },
+        { name: '바지', price: 25000, quantity: 5, isSelected: false },
     ];
 
     // 총 수량
@@ -68,11 +68,43 @@
     log(totalPrice(products));
 
     // sum을 통해 추상화의 레밸을 높혀 다른 도메인이 와도 폭넓게 이용가능
-    log(sum(u => u.age, [
-        { age: 34 },
-        { age: 30 },
-        { age: 40 }
-    ]));
+    // log(sum(u => u.age, [
+    //     { age: 34 },
+    //     { age: 30 },
+    //     { age: 40 }
+    // ]));
     </script>
+
+    <script>
+        document.querySelector('#cart').innerHTML = `
+        <table>
+            <tr>
+                <th>상품 이름</th>
+                <th>가격</th>
+                <th>수량</th>
+                <th>총 가격</th>
+            </tr>
+            ${go(products,
+                sum(p => `
+                <tr>
+                    <td><input type="checkbox" ${p.isSelected ? 'checked' : ''} /></td>
+                    <td>${p.name}</td>
+                    <td>${p.price}</td>
+                    <td><input type="number" value="${p.quantity}"/></td>
+                    <td>${p.price * p.quantity}</td>
+                </tr>
+                `)           
+            )} 
+            <tr>
+                <td colspan="3">합계</td>
+                <td>${totalQuantity(filter(p => p.isSelected, products))}</td>
+                <td>${totalPrice(filter(p => p.isSelected, products))}</td>
+            </tr>    
+        </table>
+        `
+// 함수형 프로그래밍의 다형성 => sum이라는 함수를 HTML 매핑에 쓸 수도, 다른 형태로 쓸 수도 있음 
+</script>
+
+
 </body>
 </html>
