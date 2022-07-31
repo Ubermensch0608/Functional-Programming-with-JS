@@ -1,0 +1,65 @@
+<script src="../lib//fx.js"></script>
+
+## range
+
+<script>
+    const add = (a, b) => a + b;
+
+    const range = l => {
+    const arr = [];
+    for(let i = 0; i < l; i++){
+        log(i, 'range');
+        arr.push(i);
+    }
+    return arr;
+};
+
+    log(range(5));
+    // [0, 1, 2, 3, 4]
+
+    log(range(2));
+    // [0, 1]
+
+    const list = range(4);
+    log(list);
+    // log(reduce(add, list));
+    // reduce에 값을 전달하기 전에 배열로 이미 평가가 실행됨
+</script>
+
+## 느긋한 L.range 
+
+<script>
+    const L = {};
+
+    L.range = function *(l) {
+    let i = -1;
+    let res = [];
+    while (++i < l) {
+        log(i, 'L.range')
+        yield i;
+    }
+};
+    // next를 통해 값을 가져올 수 있는 이터레이터
+    var list2 = L.range(4);
+    // log(list2);
+    // log(list2.next());
+    // log(list2.next());
+    // log(list2.next());
+    // log(list2.next());
+    // log(reduce(add, list2));
+</script>
+
+<!-- range 함수는 range를 실행했을 때 이미 코드의 모든 부분이 실행되면서 값이 평가됨 -->
+<!-- 반대로 L.ragne 함수는 값이 필요하게 될 때, 평가됨 / 실제로 사용자에게 필요한 값이 만들어 질 때 까지 지연 -->
+
+<script>
+    console.clear();
+    function test(name, time, f) {
+        console.time(name);
+        while (time--) f();
+        console.timeEnd(name);
+    };
+
+    test('L.range', 10, () => reduce(add, L.range(10000)));
+    test('range', 10, () => reduce(add, range(10000)));
+</script>
