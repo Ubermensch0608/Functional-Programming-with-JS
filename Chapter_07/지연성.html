@@ -60,6 +60,30 @@
         console.timeEnd(name);
     };
 
-    test('L.range', 10, () => reduce(add, L.range(10000)));
-    test('range', 10, () => reduce(add, range(10000)));
+    // test('L.range', 10, () => reduce(add, L.range(10000)));
+    // test('range', 10, () => reduce(add, range(10000)));
+    console.clear();
+</script>
+
+## take 
+
+<script>
+    const take = curry((l, iter) => {
+        let res = [];
+        for (const a of iter){
+            res.push(a);
+            if(res.length == l) return res;
+        }
+        return res;
+    });
+    go(
+        range(100000),
+        take(5),
+        reduce(add),
+        log);
+    go(
+        L.range(100000),
+        take(5),
+        reduce(add),
+        log);
 </script>
