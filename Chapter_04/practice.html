@@ -15,12 +15,13 @@
         
         const map = (f, iter) => {
             const arr = [];
-            for(const a of iter) {
-                f(arr.push(a));
+            for (const a of iter){
+                arr.push(f(a));
             }
-        };
+            return arr
+        }
 
-        log(map((a)=> a,arr1));
+        log(map((a)=> a * 10, arr1));
 
 
     </script>
