@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>const log = console.log;</script>
+
+    <script>
+        // map 함수 구현
+        const arr1 = [1, 2, 3, 4]
+        
+        const map = (f, iter) => {
+            const arr = [];
+            for(const a of iter) {
+                f(arr.push(a));
+            }
+        };
+
+        log(map((a)=> a,arr1));
+
+
+    </script>
+</body>
+</html>
