@@ -1,11 +1,15 @@
 import style from './Todo.module.css';
 
-const Todo = ({ todo }) => {
+const Todo = ({ todo, onDeleteTodo }) => {
+  const deleteTodoHandler = (clickId) => {
+    onDeleteTodo(clickId);
+  };
+
   return (
     <li className={style.todo}>
       <span>{todo.todo}</span>
       <span>
-        <button>delete</button>
+        <button onClick={() => deleteTodoHandler(todo.id)}>delete</button>
       </span>
     </li>
   );
