@@ -1,11 +1,12 @@
-<script>const log = console.log;</script>
+<script>
+    const log = console.log;
+</script>
 
-# 제너레이터/이터레이터
-    - 제너레이터: 이터레이터이자 이터러블을 생성하는 함수 
+# 제너레이터/이터레이터 - 제너레이터: 이터레이터이자 이터러블을 생성하는 함수
 
 <script>
-    function *gen() {
-        yield 1; 
+    function* gen() {
+        yield 1;
         if (false) yield 2;
         yield 3;
     }
@@ -24,20 +25,20 @@
 <script>
     console.clear();
 
-    function *infinity(i = 0) {
+    function* infinity(i = 0) {
         while (true) yield i++;
     }
 
-    function *limit(limit, iter) {
+    function* limit(limit, iter) {
         for (const a of iter) {
             yield a;
-            if(a == limit) return;
+            if (a == limit) return;
         }
     }
 
-    function *odds(l) {
+    function* odds(l) {
         for (const a of limit(l, infinity(1))) {
-            if(a % 2) yield a;
+            if (a % 2) yield a;
         }
     }
     let iter2 = odds(10);
@@ -63,7 +64,5 @@
     log(tail);
 
     const [a, b, ...rest] = odds(10);
-    log(a),
-    log(b),
-    log(rest);
+    log(a), log(b), log(rest);
 </script>
