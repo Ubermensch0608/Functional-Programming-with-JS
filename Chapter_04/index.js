@@ -92,3 +92,44 @@ for (const product of products) {
 
 // log(...newArr2);
 log(...filter((product) => product.price < 20000, products));
+
+const numbers = [1, 2, 3, 4, 5];
+let total = 0;
+
+for (const number of numbers) {
+    total = total + number;
+}
+
+log(total);
+const add = (a, b) => a + b;
+/**
+ * reduce iterable한 값을 축약해나가는 함수
+ * @param { void } f    역할을 수행할 함수
+ * @param { number } initial    초기값
+ * @param { Iterable<number> } iter  iterable한 값들
+ */
+const reduce = function(f, initial, iter) {
+    if (!iter) {
+        iter = initial[Symbol.iterator]();
+        initial = iter.next().value;
+    }
+    for (const number of iter) {
+        initial = f(initial, number);
+    }
+    return initial;
+};
+
+// log(reduce(add, numbers));
+// log(reduce((total, product) => total + product.price, 0, products));
+// log(add(add(add(add(add(0, 1), 2), 3), 4), 5));
+
+log(
+    reduce(
+        add,
+        map(
+            // 기대한 배열
+            (product) => product.price,
+            filter((product) => product.price < 20000, products) // 기대한 배열
+        )
+    )
+);
