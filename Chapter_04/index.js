@@ -133,3 +133,39 @@ log(
         )
     )
 );
+console.clear();
+
+// 위 함수들은 다형성이 높지만 코드를 읽는 것에서는 좋다고 할 수 없음
+
+/**
+ * 원하는 로직 처리 함수들을 받아 순차적으로 실행 시킨 뒤 마지막 값을 반환하는 helper 함수
+ * @param  {...number} args
+ * @returns
+ */
+const go = (...args) => reduce((a, f) => f(a), args);
+
+/**
+ * 함수를 리턴하는 함수
+ * @param { void} f  로직을 처리할 첫 번째 함수를 받는다.
+ * @param {...void} fs  로직을 처리할 나머지 함수들을 받는다.
+ */
+const pipe =
+    (f, ...fs) =>
+    (...as) =>
+    go(f(...as), ...fs);
+
+go(
+    0,
+    (a) => a + 1,
+    (a) => a + 10,
+    (a) => a + 100,
+    log
+);
+
+const f = pipe(
+    (a, b) => a + b,
+    (a) => a + 10,
+    (a) => a + 100
+);
+
+log(f(0, 1));
