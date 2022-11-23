@@ -1,5 +1,14 @@
 const log = console.log;
 
+const curry =
+    (f) =>
+    (a, ..._) =>
+    _.length // 인자가 2개 이상일 때
+    ?
+    f(a, ..._) // 함수 즉시 실행
+    :
+    (..._) => f(a, ..._); // 지연했다가 실행
+
 const products = [
     { name: '반팔티', price: 15000 },
     { name: '긴팔티', price: 20000 },
@@ -30,7 +39,7 @@ log(prices);
  * @param { Iterable } iter iterable한 값
  * @returns { Iterable }    로직에 의해 생생된 iterable한 값 리턴
  * */
-const map = (f, iter) => {
+const map = curry((f, iter) => {
     const newArr = [];
 
     for (const i of iter) {
@@ -38,7 +47,7 @@ const map = (f, iter) => {
     }
 
     return newArr;
-};
+});
 
 log(map((product) => product.name, products));
 log(map((product) => product.price, products));
@@ -74,7 +83,7 @@ log(m);
 log(new Map(map(([key, value]) => [key, value * 100], m)));
 
 const newArr2 = [];
-const filter = (f, iter) => {
+const filter = curry((f, iter) => {
     const newFilter = [];
 
     for (const el of iter) {
@@ -82,7 +91,7 @@ const filter = (f, iter) => {
     }
 
     return newFilter;
-};
+});
 
 for (const product of products) {
     if (product.price > 20000) {
@@ -108,7 +117,7 @@ const add = (a, b) => a + b;
  * @param { number } initial    초기값
  * @param { Iterable<number> } iter  iterable한 값들
  */
-const reduce = function(f, initial, iter) {
+const reduce = curry(function(f, initial, iter) {
     if (!iter) {
         iter = initial[Symbol.iterator]();
         initial = iter.next().value;
@@ -117,7 +126,7 @@ const reduce = function(f, initial, iter) {
         initial = f(initial, number);
     }
     return initial;
-};
+});
 
 // log(reduce(add, numbers));
 // log(reduce((total, product) => total + product.price, 0, products));
@@ -169,3 +178,17 @@ const f = pipe(
 );
 
 log(f(0, 1));
+
+// go 함수를 통해 순서 뒤집기
+// curry 함수를 통해서 표현 간결하게 하기
+go(
+    products,
+    filter((p) => p.price < 20000),
+    map((p) => p.price),
+    reduce(add),
+    log
+);
+
+const multi = curry((a, b) => a * b);
+
+log(multi(2)(3));
